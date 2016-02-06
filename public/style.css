@@ -12,6 +12,11 @@ select {
 
 a {
   color: #FF0044;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 ul {
