@@ -1,0 +1,12 @@
+{
+  "karrestaurangen": {
+    "url": "http://intern.chalmerskonferens.se/view/restaurant/karrestaurangen/Veckomeny.rss",
+    "format": "text/xml",
+    "encoding": "utf-8"
+  },
+  "einstein": {
+    "url": "http://www.butlercatering.se/print/6",
+    "format": "text/html",
+    "encoding": "utf-8"
+  }
+}

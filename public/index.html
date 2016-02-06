@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mat</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <app></app>
+  <script type="riot/tag" src="app.tag"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.3.15/riot+compiler.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.min.js"></script>
+  <script type="text/javascript" src="code.js"></script>
+  <script>
+    Date.prototype.setDay = function(dayOfWeek) {
+        this.setDate(this.getDate() - this.getDay() + dayOfWeek);
+    }
+
+    var get_query_string = function (field) {
+        var reg = new RegExp("[?&]" + field + "=([^&#]*)", "i")
+        var string = reg.exec(window.location.href)
+
+        return string ? string[1] : null
+    }
+
+    var date = new Date()
+    var day = get_query_string("day")
+
+    if (day) {
+      date.setDay(day)
+    }
+
+    getRestaurants(date).then(function (restaurants) {
+      riot.mount('app', { restaurants: restaurants, date: date })
+    })
+  </script>
+</body>
+</html>
