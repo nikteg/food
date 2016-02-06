@@ -12,7 +12,10 @@ app.get('/restaurant/:restaurant', function (req, res, next) {
 
   if (!restaurant) return next(new Error("Invalid restaurant"))
 
-  request(restaurant.url, function (err, resp, body) {
+  request({
+    url: restaurant.url,
+    encoding: restaurant.encoding || null
+  }, function (err, resp, body) {
     if (err) return next(new Error("Request error"))
     if (resp.statusCode !== 200) return next(new Error("Request not 200"))
 
