@@ -9,4 +9,5 @@ fi
 
 git checkout -f "$1"
 
+npm install
 npm start & echo $! > app.pid
