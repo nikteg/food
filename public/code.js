@@ -100,56 +100,43 @@ var getRestaurants = function (date) {
 
   // Tre Indier
   restaurants.push(new Promise(function (resolve, reject) {
-    var fetch_url = "/restaurant/treindier"
 
-    var daysSwe = ["Sondag", "Mandag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lordag"]
+    var menu = [
+      [], // Sunday
+      [
+        "Kyckling tillredd i kryddstark masala-sky.",
+        "Lamm marinerat i vitlök, ingefära och mandel. Serveras med lök, mandel, rostad koriandersås."
+      ],
+      [
+        "Kycklinggryta med koriander och saffran.",
+        "Lamm med spenat, ingefära och grön chilli."
+      ],
+      [
+        "Kycklingbröst med pistage och tomatgräddsås",
+        "Lammfärsbiffar med klyftpotatis samt kall myntayoghurt-sås. Mediumstark."
+      ],
+      [
+        "Stark kycklingrätt med en doft av färska curryblad, brässerad i vinäger, farinsocker, nejlikor och svartpeppar.",
+        "Fisk marinerad i citron, grön chilli och den heliga basilikan med senap/mango-sås."
+      ],
+      [
+        "Kycklingrätt med sås på malabar, svartpeppar och cocos.",
+        "Fläskfilé med rödvin/masalasås"
+      ],
+      [] // Saturday
+    ]
 
-    fetch(fetch_url).then(function (res) {
+    var todays_menu = menu[date.getDay()]
+    var standing = todays_menu.length > 0 ? [
+      "Stående – Vegetarisk tallrik med linser, tillagad färskost och grönsaksrätt samt raita.",
+      "Stående – Grillad kyckling som marinerats i lime, yoghurt samt tandori krydd-masala. Serveras med makhani-smör och tomatgräddsås.",
+      "Stående – Grillat kycklingbröst, marinerat med citron och yoghurt bräserad i cocos, grädde och spiskummin.",
+      "Stående – Senapskryddade räkor i het grön masala och cocossås."
+    ] : []
 
-      return res.arrayBuffer()
-    }).then(function (body) {
-
-      return PDFJS.getDocument(body)
-    }).then(function(pdf) {
-
-      return pdf.getPage(1)
-    }).then(function(page) {
-
-      return page.getTextContent()
-    }).then(function(text_content) {
-      var PDF_items = text_content.items
-
-      var items = []
-
-      for (var index = 0; index < PDF_items.length; index++) {
-        var PDF_item = PDF_items[index]
-
-        if (daysSwe.indexOf(PDF_item.str) === date.getDay()) {
-          Array.prototype.push.apply(items, [
-            PDF_items[index + 2].str,
-            PDF_items[index + 4].str
-          ])
-        } else if (PDF_item.str === "Staende Alternativ") {
-          Array.prototype.push.apply(items, [
-            PDF_items[index + 2].str,
-            PDF_items[index + 4].str,
-            PDF_items[index + 6].str,
-            PDF_items[index + 8].str
-          ])
-        }
-      }
-
-      return items
-    }).catch(function (err) {
-      console.log(err)
-      console.error("Could not fetch and/or parse", fetch_url)
-
-      return []
-    }).then(function (items) {
-      resolve({
-        name: "Tre Indier",
-        items: items
-      })
+    resolve({
+      name: "Tre Indier",
+      items: todays_menu.concat(standing)
     })
   }))
 

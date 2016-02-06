@@ -8,9 +8,5 @@
     "url": "http://www.butlercatering.se/print/6",
     "format": "text/html",
     "encoding": "utf-8"
-  },
-  "treindier": {
-    "url": "http://www.treindier.eu/menyer/tre_indier_-_lunch2.pdf",
-    "format": "application/pdf"
   }
 }
