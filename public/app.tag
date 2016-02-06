@@ -21,7 +21,7 @@
     </li>
   </ul>
   <div id="footer">
-    <p>Powered by <a href="http://riotjs.com"><img src="http://riotjs.com/img/logo/riot60x.png" alt="RIOT.js" /></a></p>
+    <p>Powered by <a href="http://riotjs.com"><img src="riot.png" alt="RIOT.js" /></a></p>
     <p><a href="https://github.com/bipshark/food">Vill du lägga till din restaurang? Laddar inte sidan?</a></p>
   </div>
   <script>
