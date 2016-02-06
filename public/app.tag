@@ -39,7 +39,7 @@
     ]
 
     this.today = dayNames[this.opts.date.getDay()] + ", "
-      + this.opts.date.getDay() + " "
+      + this.opts.date.getDate() + " "
       + monthNames[this.opts.date.getMonth()]
 
     this.restaurants = opts.restaurants
@@ -49,7 +49,6 @@
     }
 
     this.on("mount", function() {
-      console.log(this.opts.date.getDay())
       this.root.querySelector("select").value = this.opts.date.getDay()
     })
   </script>
