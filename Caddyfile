@@ -1,3 +1,4 @@
+localhost:80
 proxy / localhost:3000
 
 git github.com/bipshark/food {
