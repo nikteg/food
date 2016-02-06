@@ -8,5 +8,10 @@
     "url": "http://www.butlercatering.se/print/6",
     "format": "text/html",
     "encoding": "utf-8"
+  },
+  "express": {
+    "url": "http://intern.chalmerskonferens.se/view/restaurant/express/Veckomeny",
+    "format": "text/html",
+    "encoding": "utf-8"
   }
 }

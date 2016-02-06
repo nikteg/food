@@ -140,5 +140,53 @@ var getRestaurants = function (date) {
     })
   }))
 
+  // Express
+  restaurants.push(new Promise(function (resolve, reject) {
+    var fetch_url = "/restaurant/express"
+
+    var daysSwe = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]
+
+    fetch(fetch_url).then(function (res) {
+
+      return res.text()
+    }).then(function (body) {
+
+      var p = new DOMParser()
+      var DOM = p.parseFromString(body, "text/html")
+
+      var DOM_items = DOM.querySelectorAll(".swedish-menu .week-day")
+
+      var DOM_item_today = DOM_array(DOM_items).filter(function (DOM_item) {
+        var daySwe = DOM_item.querySelector("h2").textContent
+        var day = daysSwe.indexOf(daySwe)
+
+        return day === date.getDay()
+      })[0]
+
+      if (!DOM_item_today) return []
+
+      var DOM_foods = DOM_item_today.querySelectorAll(".dish .dish-name")
+
+      return DOM_array(DOM_foods).map(function (DOM_food) {
+        var type = DOM_food.previousElementSibling.textContent
+
+        if (DOM_food.previousElementSibling.textContent !== "Express") {
+          return "Vegetarisk – " + DOM_food.textContent
+        }
+
+        return DOM_food.textContent
+      })
+    }).catch(function (err) {
+      console.error("Could not fetch and/or parse", fetch_url)
+
+      return []
+    }).then(function (items) {
+      resolve({
+        name: "Express",
+        items: items
+      })
+    })
+  }))
+
   return Promise.all(restaurants)
 }
