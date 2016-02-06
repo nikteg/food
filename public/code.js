@@ -139,6 +139,48 @@ var getRestaurants = function (date) {
       items: todays_menu && todays_menu.concat(standing) || []
     })
   }))
+  
+  // Indian Barbeque
+  restaurants.push(new Promise(function (resolve, reject) {
+
+    var menu = [
+      null, // Sunday
+      [
+        "Tandoori Chicken Tikka: (mild) Grillad kycklingfilé serveras med en mild tandoori sås",
+        "Tawa Gosht: (mellan stark) Grillad fläsk med indiska kryddor I en syrlig tomatsås"
+      ],
+      [
+        "Makhni Murgh: (mild) Yoghurt och kumminmarinerad kycklingfilé serveras med mild tikka sås.",
+        "TulsiMaachi: (mellan stark) Laxfilé marinerad i basilika, koriander och senap. Serveras i rostad vitlöksås"
+      ],
+      [
+        "Chicken Rajwada: (mild) Kyckling tillagad i krämig tomatsås, kardemumma, bockhornsklöver, och cashewnötter.",
+        "Lamm Mirch Gost: (mellan stark) Lamm tillagad i en peppar- löksås och salanmirch"
+      ],
+      [
+        "Malwani Murgh: (mellan stark) Kyckling tillagad med en speciell malwanimasala, tamarind och kokos.",
+        "Bengali Ghost: (mellan stark) Grillad fläsk serveras i en syrlig tomat och rödvin sås med gul senap."
+      ],
+      [
+        "DumkiHandi: (mild) Kyckling tillagad i tomat, fänkål och kummin sås.",
+        "Kashmiri Lamm Kofta: (mellan stark) Lammfärs bullar med smakrika kryddor I en  krämig tomatsås."
+      ],
+      null // Saturday
+    ]
+
+    var todays_menu = menu[date.getDay()]
+    var standing = [
+      "Stående - Subzi Thaali: Vegetarisk tallrik med tre rätter.",
+      "Stående – Tulsi Maachi: (mellan stark) Laxfilé marinerad i basilika, koriander och senap. Serveras i rostad vitlöksås. 99 kr",
+      "Stående – Jhinga Balchao: räkor med tomat,chilli,rödvin och basilika. 109 kr",
+      "Stående – Lamm korma: En mild lammrätt tillagade med kokosgrädde och kardemumma. 109 kr",
+    ]
+
+    resolve({
+      name: "Indian Barbeque",
+      items: todays_menu && todays_menu.concat(standing) || []
+    })
+  }))
 
   // Express
   restaurants.push(new Promise(function (resolve, reject) {
