@@ -1,0 +1,8 @@
+proxy / localhost:3000
+
+git github.com/bipshark/food {
+  hook        /webhook secret-password
+  path        ./
+  then        npm install
+  then_long   npm start
+}
