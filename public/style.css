@@ -2,6 +2,16 @@ body {
   font: 14px/1.5em sans-serif;
   background: #f2f2f2;
   color: #333;
+  padding: 1em;
+  margin: 0;
+}
+
+select {
+  font: 18px/1.5em sans-serif;
+}
+
+a {
+  color: #FF0044;
 }
 
 ul {
@@ -10,12 +20,19 @@ ul {
   margin: 0;
 }
 
+li.restaurant li {
+  border-bottom: 1px solid #dedede;
+  padding: 0.25em 0;
+}
+
+h3 {
+  border-bottom: 1px solid #dedede;
+  margin: 1.5em 0 0em 0;
+  padding-bottom: 0.25em;
+}
+
 #footer {
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  width: 100%;
-  padding: 1em;
+  margin-top: 5em;
 }
 
 #footer img {

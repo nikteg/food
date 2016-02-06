@@ -10,7 +10,7 @@
     <option value="0">Söndag</option>
   </select>
   <ul>
-    <li each="{ restaurant in restaurants }">
+    <li class="restaurant" each="{ restaurant in restaurants }">
       <h3>{ restaurant.name }</h3>
       <ul>
         <li if="{ restaurant.items.length === 0 }">Ingen lunch idag</li>
@@ -21,7 +21,8 @@
     </li>
   </ul>
   <div id="footer">
-    Powered by <img src="http://riotjs.com/img/logo/riot60x.png" alt="RIOT.js" />
+    <p>Powered by <img src="http://riotjs.com/img/logo/riot60x.png" alt="RIOT.js" /></p>
+    <p><a href="https://github.com/bipshark/food">Vill du lägga till din resturang? Laddar inte sidan?</a></p>
   </div>
   <script>
     var dayNames = [
