@@ -139,7 +139,7 @@ var getRestaurants = function (date) {
       items: todays_menu && todays_menu.concat(standing) || []
     })
   }))
-  
+
   // Indian Barbeque
   restaurants.push(new Promise(function (resolve, reject) {
 
@@ -170,7 +170,7 @@ var getRestaurants = function (date) {
 
     var todays_menu = menu[date.getDay()]
     var standing = [
-      "Stående - Subzi Thaali: Vegetarisk tallrik med tre rätter.",
+      "Stående – Subzi Thaali: Vegetarisk tallrik med tre rätter.",
       "Stående – Tulsi Maachi: (mellan stark) Laxfilé marinerad i basilika, koriander och senap. Serveras i rostad vitlöksås. 99 kr",
       "Stående – Jhinga Balchao: räkor med tomat,chilli,rödvin och basilika. 109 kr",
       "Stående – Lamm korma: En mild lammrätt tillagade med kokosgrädde och kardemumma. 109 kr",
