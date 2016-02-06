@@ -128,10 +128,10 @@ var getRestaurants = function (date) {
 
     var todays_menu = menu[date.getDay()]
     var standing = [
-      "Stående – Vegetarisk tallrik med linser, tillagad färskost och grönsaksrätt samt raita.",
-      "Stående – Grillad kyckling som marinerats i lime, yoghurt samt tandori krydd-masala. Serveras med makhani-smör och tomatgräddsås.",
-      "Stående – Grillat kycklingbröst, marinerat med citron och yoghurt bräserad i cocos, grädde och spiskummin.",
-      "Stående – Senapskryddade räkor i het grön masala och cocossås."
+      "Stående – Vegetarisk tallrik med linser, tillagad färskost och grönsaksrätt samt raita. 69 kr",
+      "Stående – Grillad kyckling som marinerats i lime, yoghurt samt tandori krydd-masala. Serveras med makhani-smör och tomatgräddsås. 79 kr",
+      "Stående – Grillat kycklingbröst, marinerat med citron och yoghurt bräserad i cocos, grädde och spiskummin. 85 kr",
+      "Stående – Senapskryddade räkor i het grön masala och cocossås. 99 kr"
     ]
 
     resolve({
