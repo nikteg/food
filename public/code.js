@@ -102,7 +102,7 @@ var getRestaurants = function (date) {
   restaurants.push(new Promise(function (resolve, reject) {
 
     var menu = [
-      [], // Sunday
+      null, // Sunday
       [
         "Kyckling tillredd i kryddstark masala-sky.",
         "Lamm marinerat i vitlök, ingefära och mandel. Serveras med lök, mandel, rostad koriandersås."
@@ -123,20 +123,20 @@ var getRestaurants = function (date) {
         "Kycklingrätt med sås på malabar, svartpeppar och cocos.",
         "Fläskfilé med rödvin/masalasås"
       ],
-      [] // Saturday
+      null // Saturday
     ]
 
     var todays_menu = menu[date.getDay()]
-    var standing = todays_menu.length > 0 ? [
+    var standing = [
       "Stående – Vegetarisk tallrik med linser, tillagad färskost och grönsaksrätt samt raita.",
       "Stående – Grillad kyckling som marinerats i lime, yoghurt samt tandori krydd-masala. Serveras med makhani-smör och tomatgräddsås.",
       "Stående – Grillat kycklingbröst, marinerat med citron och yoghurt bräserad i cocos, grädde och spiskummin.",
       "Stående – Senapskryddade räkor i het grön masala och cocossås."
-    ] : []
+    ]
 
     resolve({
       name: "Tre Indier",
-      items: todays_menu.concat(standing)
+      items: todays_menu && todays_menu.concat(standing) || []
     })
   }))
 
