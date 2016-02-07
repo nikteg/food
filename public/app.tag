@@ -11,8 +11,8 @@
   </select>
   <ul>
     <li class="restaurant" each="{ restaurant in restaurants }">
-      <h3>{ restaurant.name }</h3>
-      <ul>
+      <h3 onclick="{ parent.toggle }">{ restaurant.hidden && "+" || "-" } { restaurant.name }</h3>
+      <ul class="{ hidden: restaurant.hidden }">
         <li if="{ restaurant.items.length === 0 }">Ingen lunch idag</li>
         <li each="{ item in restaurant.items }">
           { item }
@@ -21,7 +21,6 @@
     </li>
   </ul>
   <div id="footer">
-    <p>Powered by <a href="http://riotjs.com"><img src="riot.png" alt="RIOT.js" /></a></p>
     <p><a href="https://github.com/bipshark/food">Vill du lägga till din restaurang? Laddar inte sidan?</a></p>
   </div>
   <script>
@@ -42,10 +41,31 @@
       + this.opts.date.getDate() + " "
       + monthNames[this.opts.date.getMonth()]
 
-    this.restaurants = opts.restaurants
+    var hiddens = localStorage.getItem("hiddens") || []
+
+    this.restaurants = opts.restaurants.map(function (item, index) {
+      item.hidden = (hiddens.indexOf(index) !== -1)
+
+      return item
+    })
 
     changeDate (e) {
       window.location.href = "?day=" + e.target.value
+    }
+
+    toggle (e) {
+      var index = this.restaurants.indexOf(e.item.restaurant)
+      this.restaurants[index].hidden = !this.restaurants[index].hidden
+
+      var hiddens = this.restaurants.map(function (item, index) {
+        return { hidden: item.hidden, index: index }
+      }).filter(function (item) {
+        return item.hidden
+      }).map(function (item) {
+        return item.index
+      })
+
+      localStorage.setItem("hiddens", hiddens)
     }
 
     this.on("mount", function() {
