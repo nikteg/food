@@ -13,10 +13,16 @@
     <li class="restaurant" each="{ restaurant in restaurants }">
       <h3 onclick="{ parent.toggle }">{ restaurant.hidden && "+" || "-" } { restaurant.name }</h3>
       <ul class="{ hidden: restaurant.hidden }">
-        <li if="{ restaurant.items.length === 0 }">Ingen lunch idag</li>
-        <li each="{ item in restaurant.items }">
-          { item }
-        </li>
+        <virtual if="{ restaurant.items }">
+          <li if="{ restaurant.items.length === 0 }">Ingen lunch idag</li>
+          <li each="{ item in restaurant.items }">
+            { item }
+          </li>
+        </virtual>
+        <virtual if="{ !restaurant.items }">
+          <li if="{ restaurant.error }">Fel vid laddning</li>
+          <li if="{ !restaurant.error }">Laddar...</li>
+        </virtual>
       </ul>
     </li>
   </ul>
@@ -42,11 +48,20 @@
       + monthNames[this.opts.date.getMonth()]
 
     var hiddens = localStorage.getItem("hiddens") || []
+    var that = this
 
-    this.restaurants = opts.restaurants.map(function (item, index) {
-      item.hidden = (hiddens.indexOf(index) !== -1)
+    this.restaurants = opts.restaurants.map(function (restaurant, index) {
+      restaurant.promise.then(function (items) {
+        restaurant.items = items
+        that.update()
+      }, function (err) {
+        restaurant.error = true
+        that.update()
+      })
 
-      return item
+      restaurant.hidden = (hiddens.indexOf(index) !== -1)
+
+      return restaurant
     })
 
     changeDate (e) {

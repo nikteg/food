@@ -32,9 +32,7 @@
       date.setDay(+day)
     }
 
-    getRestaurants(date).then(function (restaurants) {
-      riot.mount('app', { restaurants: restaurants, date: date })
-    })
+    riot.mount('app', { restaurants: getRestaurants(date), date: date })
   </script>
 </body>
 </html>

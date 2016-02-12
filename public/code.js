@@ -2,19 +2,36 @@ var DOM_array = function (DOM) {
   return Array.prototype.slice.call(DOM, 0)
 }
 
+var handleErrors = function (response) {
+    if (!response.ok) {
+        throw Error(response.statusText)
+    }
+
+    return response
+}
+
+var responseText = function (response) {
+  return response.text()
+}
+
+var createRestaurant = function (name, items_promise) {
+  return {
+    name: name,
+    promise: items_promise,
+    error: false,
+    hidden: false
+  }
+}
+
 var getRestaurants = function (date) {
 
   var restaurants = []
 
   // Kårresturangen
-  restaurants.push(new Promise(function (resolve, reject) {
-    var fetch_url = "/restaurant/karrestaurangen"
-
-    fetch(fetch_url).then(function (res) {
-
-      return res.text()
-    }).then(function (body) {
-
+  restaurants.push(createRestaurant("Kårrestaurangen", fetch("/restaurant/karrestaurangen")
+    .then(handleErrors)
+    .then(responseText)
+    .then(function (body) {
       var p = new DOMParser()
       var DOM = p.parseFromString(body, "text/xml")
 
@@ -42,29 +59,14 @@ var getRestaurants = function (date) {
 
         return name + " – " + food
       })
-    }).catch(function (err) {
-      console.error("Could not fetch and/or parse", fetch_url)
-
-      return []
-    }).then(function (items) {
-      resolve({
-        name: "Kårrestaurangen",
-        items: items
-      })
-    })
-  }))
+    })))
 
   // Einstein
-  restaurants.push(new Promise(function (resolve, reject) {
-    var fetch_url = "/restaurant/einstein"
-
-    var daysSwe = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]
-
-    fetch(fetch_url).then(function (res) {
-
-      return res.text()
-    }).then(function (body) {
-
+  restaurants.push(createRestaurant("Einstein", fetch("/restaurant/einstein")
+    .then(handleErrors)
+    .then(responseText)
+    .then(function (body) {
+      var daysSwe = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]
       var p = new DOMParser()
       var DOM = p.parseFromString(body, "text/html")
 
@@ -86,20 +88,10 @@ var getRestaurants = function (date) {
       }).filter(function (item) {
         return item !== ""
       })
-    }).catch(function (err) {
-      console.error("Could not fetch and/or parse", fetch_url)
-
-      return []
-    }).then(function (items) {
-      resolve({
-        name: "Einstein",
-        items: items
-      })
-    })
-  }))
+    })))
 
   // Tre Indier
-  restaurants.push(new Promise(function (resolve, reject) {
+  restaurants.push(createRestaurant("Tre Indier", new Promise(function (resolve, reject) {
 
     var menu = [
       null, // Sunday
@@ -134,14 +126,11 @@ var getRestaurants = function (date) {
       "Stående – Senapskryddade räkor i het grön masala och cocossås. 99 kr"
     ]
 
-    resolve({
-      name: "Tre Indier",
-      items: todays_menu && todays_menu.concat(standing) || []
-    })
-  }))
+    resolve(todays_menu && todays_menu.concat(standing) || [])
+  })))
 
   // Indian Barbeque
-  restaurants.push(new Promise(function (resolve, reject) {
+  restaurants.push(createRestaurant("Indian Barbeque", new Promise(function (resolve, reject) {
 
     var menu = [
       null, // Sunday
@@ -176,23 +165,15 @@ var getRestaurants = function (date) {
       "Stående – Lamm korma: En mild lammrätt tillagade med kokosgrädde och kardemumma. 109 kr",
     ]
 
-    resolve({
-      name: "Indian Barbeque",
-      items: todays_menu && todays_menu.concat(standing) || []
-    })
-  }))
+    resolve(todays_menu && todays_menu.concat(standing) || [])
+  })))
 
   // Express
-  restaurants.push(new Promise(function (resolve, reject) {
-    var fetch_url = "/restaurant/express"
-
-    var daysSwe = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]
-
-    fetch(fetch_url).then(function (res) {
-
-      return res.text()
-    }).then(function (body) {
-
+  restaurants.push(createRestaurant("Express", fetch("/restaurant/express")
+    .then(handleErrors)
+    .then(responseText)
+    .then(function (body) {
+      var daysSwe = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]
       var p = new DOMParser()
       var DOM = p.parseFromString(body, "text/html")
 
@@ -218,17 +199,7 @@ var getRestaurants = function (date) {
 
         return DOM_food.textContent
       })
-    }).catch(function (err) {
-      console.error("Could not fetch and/or parse", fetch_url)
+    })))
 
-      return []
-    }).then(function (items) {
-      resolve({
-        name: "Express",
-        items: items
-      })
-    })
-  }))
-
-  return Promise.all(restaurants)
+  return restaurants
 }
