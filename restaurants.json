@@ -4,6 +4,11 @@
     "format": "text/xml",
     "encoding": "utf-8"
   },
+  "linsen": {
+    "url": "http://intern.chalmerskonferens.se/view/restaurant/linsen/RSS%20Feed.rss",
+    "format": "text/xml",
+    "encoding": "utf-8"
+  },
   "einstein": {
     "url": "http://www.butlercatering.se/print/6",
     "format": "text/html",

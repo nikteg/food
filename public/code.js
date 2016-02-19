@@ -90,6 +90,48 @@ var getRestaurants = function (date) {
       })
     })))
 
+  // Linsen
+  restaurants.push(createRestaurant("Linsen", fetch("/restaurant/linsen")
+    .then(handleErrors)
+    .then(responseText)
+    .then(function (body) {
+      var p = new DOMParser()
+      var DOM = p.parseFromString(body, "text/xml")
+
+      var DOM_items = DOM.querySelectorAll("item")
+
+      var getItemDate = function (DOM_item) {
+        var title = DOM_item.querySelector("title").textContent
+
+        dateStr = title.replace("Meny Kårrestaurangen - ", "")
+
+        return new Date(dateStr)
+      }
+
+      var DOM_item_today = DOM_array(DOM_items).filter(function (DOM_item) {
+        return getItemDate(DOM_item).getDay() === date.getDay()
+      })[0]
+
+      if (!DOM_item_today) return []
+
+      var DOM_foods = DOM_item_today.querySelectorAll("tr")
+
+      return DOM_array(DOM_foods).map(function (DOM_food) {
+        var name = DOM_food.querySelector("b").textContent
+        var food = DOM_food.querySelectorAll("td")[1].textContent
+
+        return food
+      })
+    })
+    .then(function (items) {
+      if (items.length === 0) return []
+
+      items.push("Stående – Wokade nudlar med kyckling och grönsaker smaksatt med ingefära och chili. Alt. med tofu")
+      items.push("Stående – Caesarsallad med kyckling, bacon, romansallad och krutonger samt dressing")
+
+      return items
+    })))
+
   // Tre Indier
   restaurants.push(createRestaurant("Tre Indier", new Promise(function (resolve, reject) {
 
