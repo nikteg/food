@@ -103,7 +103,7 @@ var getRestaurants = function (date) {
       var getItemDate = function (DOM_item) {
         var title = DOM_item.querySelector("title").textContent
 
-        dateStr = title.replace("Meny Kårrestaurangen - ", "")
+        dateStr = title.replace("Meny Linsen - ", "")
 
         return new Date(dateStr)
       }
