@@ -1,3 +1,22 @@
+var isInt = function (value) {
+  if (isNaN(value)) return false
+
+  var x = parseFloat(value)
+
+  return (x | 0) === x
+}
+
+Date.prototype.setDay = function(day) {
+  this.setDate(this.getDate() - this.getDay() + (day || 7))
+}
+
+var getQueryString = function (field) {
+  var reg = new RegExp("[?&]" + field + "=([^&#]*)", "i")
+  var string = reg.exec(window.location.href)
+
+  return string ? string[1] : null
+}
+
 var DOM_array = function (DOM) {
   return Array.prototype.slice.call(DOM, 0)
 }
@@ -14,13 +33,42 @@ var responseText = function (response) {
   return response.text()
 }
 
-var createRestaurant = function (name, items_promise) {
+var createRestaurant = function (name, items_promise, location) {
   return {
     name: name,
     promise: items_promise,
     error: false,
-    hidden: false
+    hidden: false,
+    location: location
   }
+}
+
+var deg2rad = function (deg) {
+  return deg * (Math.PI / 180)
+}
+
+var distance = function (lat1, lon1, lat2, lon2) {
+  var r = 6371
+  var d_lat = deg2rad(lat2 - lat1)
+  var d_lon = deg2rad(lon2 - lon1)
+  var a = Math.sin(d_lat / 2) * Math.sin(d_lat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(d_lon / 2) * Math.sin(d_lon / 2)
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+  return r * c
+}
+
+var distanceToRestaurant = function (location, restaurant) {
+  if (!restaurant.location) return Infinity
+
+  return distance(location.latitude, location.longitude, restaurant.location.latitude, restaurant.location.longitude)
+}
+
+var getLocation = function (cb) {
+  if (!navigator.geolocation) return cb(new Error("Geolocation not supported"))
+
+  navigator.geolocation.getCurrentPosition(function (location) {
+    cb(undefined, location.coords)
+  }, cb.bind(undefined, new Error("Could not get location")))
 }
 
 var getRestaurants = function (date) {
@@ -59,7 +107,7 @@ var getRestaurants = function (date) {
 
         return name + " – " + food
       })
-    })))
+    }), { latitude: 57.688830, longitude: 11.974854 }))
 
   // Einstein
   restaurants.push(createRestaurant("Einstein", fetch("/restaurant/einstein")
@@ -88,7 +136,7 @@ var getRestaurants = function (date) {
       }).filter(function (item) {
         return item !== ""
       })
-    })))
+    }), { latitude: 57.684627, longitude: 11.977987 }))
 
   // Linsen
   restaurants.push(createRestaurant("Linsen", fetch("/restaurant/linsen")
@@ -130,7 +178,7 @@ var getRestaurants = function (date) {
       items.push("Stående – Caesarsallad med kyckling, bacon, romansallad och krutonger samt dressing")
 
       return items
-    })))
+    }), { latitude: 57.687927, longitude: 11.978794 }))
 
   // Tre Indier
   restaurants.push(createRestaurant("Tre Indier", new Promise(function (resolve, reject) {
@@ -169,7 +217,7 @@ var getRestaurants = function (date) {
     ]
 
     resolve(todays_menu && todays_menu.concat(standing) || [])
-  })))
+  }), { latitude: 57.695285, longitude: 11.958641 }))
 
   // Indian Barbeque
   restaurants.push(createRestaurant("Indian Barbeque", new Promise(function (resolve, reject) {
@@ -208,7 +256,7 @@ var getRestaurants = function (date) {
     ]
 
     resolve(todays_menu && todays_menu.concat(standing) || [])
-  })))
+  }), { latitude: 57.693687, longitude: 11.970842 }))
 
   // Express
   restaurants.push(createRestaurant("Express", fetch("/restaurant/express")
@@ -241,7 +289,7 @@ var getRestaurants = function (date) {
 
         return DOM_food.textContent
       })
-    })))
+    }), { latitude: 57.688830, longitude: 11.974854 }))
 
   return restaurants
 }

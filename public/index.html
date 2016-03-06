@@ -14,25 +14,16 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.11.0/fetch.min.js"></script>
   <script type="text/javascript" src="code.js"></script>
   <script>
-    Date.prototype.setDay = function(day) {
-      this.setDate(this.getDate() - this.getDay() + (day || 7))
-    }
-
-    var get_query_string = function (field) {
-      var reg = new RegExp("[?&]" + field + "=([^&#]*)", "i")
-      var string = reg.exec(window.location.href)
-
-      return string ? string[1] : null
-    }
-
     var date = new Date()
-    var day = get_query_string("day")
+    var day = getQueryString("day")
 
-    if (day != null && Number.isInteger(+day)) {
+    if (day != null && isInt(+day)) {
       date.setDay(+day)
     }
 
-    riot.mount('app', { restaurants: getRestaurants(date), date: date })
+    getLocation(function (err, location) {
+      riot.mount('app', { restaurants: getRestaurants(date), date: date, location: location })
+    })
   </script>
 </body>
 </html>

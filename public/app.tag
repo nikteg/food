@@ -11,7 +11,11 @@
   </select>
   <ul>
     <li class="restaurant" each="{ restaurant in restaurants }">
-      <h3 onclick="{ parent.toggle }">{ restaurant.hidden && "+" || "-" } { restaurant.name }</h3>
+      <h3 onclick="{ parent.toggle }">
+        { restaurant.hidden && "+" || "-" }
+        { restaurant.name }
+        { restaurant.distance && restaurant.distance !== Infinity && "(" + Math.round(restaurant.distance * 1000) + " m)" }
+      </h3>
       <ul class="{ hidden: restaurant.hidden }">
         <virtual if="{ restaurant.items }">
           <li if="{ restaurant.items.length === 0 }">Ingen lunch idag</li>
@@ -50,7 +54,7 @@
     var hiddens = localStorage.getItem("hiddens") || []
     var that = this
 
-    this.restaurants = opts.restaurants.map(function (restaurant, index) {
+    this.restaurants = opts.restaurants.map(function (restaurant) {
       restaurant.promise.then(function (items) {
         restaurant.items = items
         that.update()
@@ -59,10 +63,24 @@
         that.update()
       })
 
-      restaurant.hidden = (hiddens.indexOf(index) !== -1)
+      restaurant.hidden = (hiddens.indexOf(restaurant.name) !== -1)
 
       return restaurant
     })
+
+    if (opts.location) {
+      var dist = distanceToRestaurant.bind(undefined, opts.location)
+
+      this.restaurants.map(function (restaurant) {
+        restaurant.distance = dist(restaurant)
+
+        return restaurant
+      })
+
+      this.restaurants.sort(function (a, b) {
+        return a.distance < b.distance ? -1 : (a.distance === b.distance ? 0 : 1)
+      })
+    }
 
     changeDate (e) {
       window.location.href = "?day=" + e.target.value
@@ -72,12 +90,10 @@
       var index = this.restaurants.indexOf(e.item.restaurant)
       this.restaurants[index].hidden = !this.restaurants[index].hidden
 
-      var hiddens = this.restaurants.map(function (item, index) {
-        return { hidden: item.hidden, index: index }
-      }).filter(function (item) {
-        return item.hidden
-      }).map(function (item) {
-        return item.index
+      var hiddens = this.restaurants.filter(function (restaurant) {
+        return restaurant.hidden
+      }).map(function (restaurant) {
+        return restaurant.name
       })
 
       localStorage.setItem("hiddens", hiddens)
