@@ -9,6 +9,7 @@
     <option value="6">Lördag</option>
     <option value="0">Söndag</option>
   </select>
+  <button onclick="{ toggleLocation }">{ opts.location ? "Disable" : "Enable" } location</button>
   <ul>
     <li class="restaurant" each="{ restaurant in restaurants }">
       <h3 onclick="{ parent.toggle }">
@@ -47,9 +48,9 @@
       "november", "december"
     ]
 
-    this.today = dayNames[this.opts.date.getDay()] + ", "
-      + this.opts.date.getDate() + " "
-      + monthNames[this.opts.date.getMonth()]
+    this.today = dayNames[opts.date.getDay()] + ", "
+      + opts.date.getDate() + " "
+      + monthNames[opts.date.getMonth()]
 
     var hiddens = localStorage.getItem("hiddens") || []
     var that = this
@@ -99,8 +100,13 @@
       localStorage.setItem("hiddens", hiddens)
     }
 
+    toggleLocation (e) {
+      localStorage.setItem("use_location", localStorage.getItem("use_location") === "yes" ? "no" : "yes")
+      window.history.go(0)
+    }
+
     this.on("mount", function() {
-      this.root.querySelector("select").value = this.opts.date.getDay()
+      this.root.querySelector("select").value = opts.date.getDay()
     })
   </script>
 </app>

@@ -23,9 +23,17 @@
       date.setDay(+day)
     }
 
-    getLocation(function (err, location) {
-      riot.mount('app', { restaurants: getRestaurants(date), date: date, location: location })
-    })
+    if (localStorage.getItem("use_location") === "yes") {
+      getLocation(function (err, location) {
+        if (err) { // Could not determine location or the user pressed 'Block'
+          localStorage.setItem("use_location", "no")
+        }
+
+        riot.mount('app', { restaurants: getRestaurants(date), date: date, location: location })
+      })
+    } else {
+      riot.mount('app', { restaurants: getRestaurants(date), date: date, location: null })
+    }
   </script>
 </body>
 </html>

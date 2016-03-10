@@ -68,7 +68,7 @@ var getLocation = function (cb) {
 
   navigator.geolocation.getCurrentPosition(function (location) {
     cb(undefined, location.coords)
-  }, cb.bind(undefined, new Error("Could not get location")))
+  }, cb)
 }
 
 var getRestaurants = function (date) {
