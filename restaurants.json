@@ -18,5 +18,10 @@
     "url": "http://intern.chalmerskonferens.se/view/restaurant/express/Veckomeny",
     "format": "text/html",
     "encoding": "utf-8"
+  },
+  "tegel": {
+    "url": "http://tegel.kvartersmenyn.se",
+    "format": "text/html",
+    "encoding": "utf-8"
   }
 }
