@@ -76,7 +76,7 @@ var getRestaurants = function (date) {
   var restaurants = []
 
   // Kårresturangen
-  restaurants.push(createRestaurant("Kårrestaurangen", fetch("/restaurant/karrestaurangen")
+  restaurants.push(createRestaurant("Kårrestaurangen", fetch(PROXY_URL + "/restaurant/karrestaurangen")
     .then(handleErrors)
     .then(responseText)
     .then(function (body) {
@@ -110,7 +110,7 @@ var getRestaurants = function (date) {
     }), { latitude: 57.688830, longitude: 11.974854 }))
 
   // Einstein
-  restaurants.push(createRestaurant("Einstein", fetch("/restaurant/einstein")
+  restaurants.push(createRestaurant("Einstein", fetch(PROXY_URL + "/restaurant/einstein")
     .then(handleErrors)
     .then(responseText)
     .then(function (body) {
@@ -139,7 +139,7 @@ var getRestaurants = function (date) {
     }), { latitude: 57.684627, longitude: 11.977987 }))
 
   // Linsen
-  restaurants.push(createRestaurant("Linsen", fetch("/restaurant/linsen")
+  restaurants.push(createRestaurant("Linsen", fetch(PROXY_URL + "/restaurant/linsen")
     .then(handleErrors)
     .then(responseText)
     .then(function (body) {
@@ -259,7 +259,7 @@ var getRestaurants = function (date) {
   }), { latitude: 57.693687, longitude: 11.970842 }))
 
   // Express
-  restaurants.push(createRestaurant("Express", fetch("/restaurant/express")
+  restaurants.push(createRestaurant("Express", fetch(PROXY_URL + "/restaurant/express")
     .then(handleErrors)
     .then(responseText)
     .then(function (body) {
