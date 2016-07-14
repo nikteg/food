@@ -1,3 +1,5 @@
+# Deprecated in favor of https://github.com/nikteg/chalmersfood
+
 # Food
 
 You can add new restaurants by creating a new entry in `code.js`. If the data
